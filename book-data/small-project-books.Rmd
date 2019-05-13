@@ -1,0 +1,92 @@
+---
+title: "Small Project: Library Books"
+author: "Gary Thuc Nguyen"
+date: "February 1, 2016"
+output: 
+  html_document:
+    fig_height: 3
+    fig_width: 5
+---
+<!-- Don't edit in between this line and the one below -->
+```{r include=FALSE}
+# Don't delete this chunk if you are using the DataComputing package
+library(DataComputing)
+```
+*Source file* 
+```{r, results='asis', echo=FALSE}
+includeSourceDocuments()
+```
+<!-- Don't edit the material above this line -->
+
+# 1. REPORT 
+
+I download the file Library-small.rda from the URL "http://tiny.cc/dcf/Library-small.rda"
+
+## 2. Basics
+First of all, we load the sample of books that we downloaded from the URL. Entry in R will look like this:
+```{r}
+load("Library-small.rda")
+
+```
+## 3.Cases
+We will calculate the number of cases in Library's collection of books, and individual books that might or might not be in the library's collection. Commands in R go as followed
+
+```{r num_cases}
+nrow(Inv)
+nrow(Bks)
+```
+Each result of each function is shown. From there, we can deduce that: 
+number of books in Library's collection is 2000 books while individual books amount to 3765. 
+
+## 4.Variables
+Next, We want to calculate the number of variables using the following code lines in R
+
+```{r message=FALSE, warning =FALSE, error=FALSE, results='hide'}
+
+str(Inv)
+str(Bks)
+
+```
+From the information given in these commands, there are:
+
+* 18 variables in Library's collection
+* 15 variables in total collection of books
+
+Each data table for Library's collection and individual books can be described as followed:
+
+* In Library's collection, the data table shows detailed information of books, such as shelving location, Item type, Call Number, etc.
+* in Individual books' collection, data table shows information such as OCLC Number, Format, Subjetc, Title, Author, etc.
+
+## 5. Number of books with respect to current statuses
+We will look at the number of books in their respective current status by inputting the following command in R
+
+```{r current_stats,echo=TRUE, results='hide'}
+Inv %>%
+  group_by(Current.Status) %>%
+  tally()
+```
+And this produces the following result
+```{r ref.label= 'current_stats', echo=FALSE}
+```
+From this, we can deduce that:
+  
+* 1866 books are currently available
+* 1 book is currently missing
+* 18 books are  currently on loan
+* 115 have currently been withdrawn
+
+## 6. times books have been checked out
+We use the following to investigate the number of times certain books have been checked out
+``` {r times_checkout, echo=TRUE, results='hide'}
+Inv %>%
+  group_by(Issued.Count) %>%
+  tally()
+```
+And the result that follows is 
+``` {r ref.label='times_checkout', echo=FALSE, results='hold'}
+```
+
+The results show the total books left for a particular title. The "title count" here indicates the number of issues for a particular book, for example the book "300" by author "Gianni Nunnari" has 92 issues left, while "Sydney Brenner : a biography" of author Errol C.Friedberg doesn't have any issues left (0 issue)
+
+
+
